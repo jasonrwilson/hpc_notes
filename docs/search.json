@@ -1,0 +1,88 @@
+[
+  {
+    "objectID": "chapter1/section1_python_scripts.html",
+    "href": "chapter1/section1_python_scripts.html",
+    "title": "Writing Python Scripts",
+    "section": "",
+    "text": "A Python script is a text file containing Python code that can be executed as a program. Throughout these notes, we will use Python scripts to implement algorithms, process data, and perform numerical computations.",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "chapter1/section1_python_scripts.html#our-first-python-script",
+    "href": "chapter1/section1_python_scripts.html#our-first-python-script",
+    "title": "Writing Python Scripts",
+    "section": "Our First Python Script",
+    "text": "Our First Python Script\nConsider the following Python code.\n\n\nhello.py\n\nprint(\"Hello World!\")\n\nSave this code in a text file named hello.py.\n\n\n\n\n\n\nCreating a File in Google Colab\n\n\n\nIf you are using Google Colab, the %%writefile command can be used to write the contents of a code cell to a file.\nFor example, enter the following in a Colab code cell:\n%%writefile hello.py\nprint(\"Hello World!\")\nRunning the cell by clicking the Run cell button or pressing Shift+Enter creates the file hello.py.\n\n\nWe can run the script from a terminal using the Python interpreter.\n$ python3 hello.py\nHello World!\n\n\n\n\n\n\nGoogle Colab Terminal\n\n\n\nTo open a terminal in Google Colab, click the Terminal button at the bottom left of the window. This opens a Linux terminal that can be used to run the scripts created using %%writefile.\n\n\nThe Linux command\npython3 hello.py\ntells the Python interpreter to execute the instructions stored in the file hello.py.\nPython scripts normally use the file extension .py.",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "chapter1/section1_python_scripts.html#command-line-arguments",
+    "href": "chapter1/section1_python_scripts.html#command-line-arguments",
+    "title": "Writing Python Scripts",
+    "section": "Command-Line Arguments",
+    "text": "Command-Line Arguments\nA script becomes more useful when its behavior can depend on input provided by the user. One way to provide input to a script is through command-line arguments.\nThe variable sys.argv contains the command used to run the program. In particular, sys.argv[0] contains the name of the script, while sys.argv[1] contains the first command-line argument and so on.\nThe following Python script prints a personalized greeting.\n\n\ngreeting.py\n\nimport sys\n\nname = sys.argv[1]\nprint(\"Hello\", name)\n\nWe can now provide a name when we run the program.\n$ python3 greeting.py Watson\nHello Watson\nCommand-line arguments are Python strings. If a command-line argument represents a number, we need to explicitly convert it.\nFor example, the following script computes the square of its integer input.\n\n\nsquare.py\n\nimport sys\n\nn = int(sys.argv[1])\nprint(n,\"squared =\",n*n)\n\n$ python3 square.py 12\n12 squared = 144\nNote that Python integers can be arbitrarily large.\n$ python3 square.py 12345678987654321\n12345678987654321 squared = 152415789666209420210333789971041\n\nMultiple Command-Line Arguments\nA script can accept an arbitrary number of command-line arguments. The function len can be used to determine the number of entries in sys.argv.\nRecall that sys.argv[0] contains the name of the script. Therefore, the command-line arguments begin at sys.argv[1] and the number of command-line arguments is len(sys.argv) - 1.\nThe next script computes the average of an arbitrary number of floating-point values provided on the command-line.\n\n\naverage.py\n\nimport sys\n\nn = len(sys.argv)\ntotal = 0.0\nfor i in range(1, n):\n    total += float(sys.argv[i])\naverage = total / (n - 1)\n\nprint(\"Average =\", average)\n\n$ python3 average.py 1.5 2.5 4.0 8.0\nAverage = 4.0",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "chapter1/section1_python_scripts.html#creating-strings",
+    "href": "chapter1/section1_python_scripts.html#creating-strings",
+    "title": "Writing Python Scripts",
+    "section": "Creating Strings",
+    "text": "Creating Strings\nMany computing tasks require the creation of text.\nPython strings are immutable, which means that individual characters cannot be changed after a string has been created. For example, the following code is not allowed.\nword = \"python\"\nword[0] = \"P\"  # this line will cause an error\nprint(word)\nPython lists, on the other hand, are mutable. We can therefore convert the string to a list, modify its individual characters, and then use join() to convert the list back into a string.\nword = list(\"python\")\nword[0] = \"P\"  # this is legal Python\nprint(\"\".join(word))\nThe following script creates an acronym by combining the first letter of each command-line argument. Note that we use result = [\" \"]*(n-1) to initialize a list that will hold the eventual acronym.\n\n\nacronym.py\n\nimport sys\n\nn = len(sys.argv)\nresult = [\" \"]*(n-1)\nfor i in range(1,n):\n    result[i-1] = sys.argv[i][0].upper()\n\nprint(\"\".join(result))\n\n$ python3 acronym.py high performance computing\nHPC",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "chapter1/section1_python_scripts.html#reading-text-from-files",
+    "href": "chapter1/section1_python_scripts.html#reading-text-from-files",
+    "title": "Writing Python Scripts",
+    "section": "Reading Text from Files",
+    "text": "Reading Text from Files\nIn the examples that follow, we will work with words from the game Wordle.\nIf you are unfamiliar with Wordle, take a few minutes to play the game before continuing.\nThe file legal_words.txt contains a collection of five-letter words that are legal inputs to Wordle. To download the file, copy and paste the following wget command into a Linux terminal and run it.\nwget https://raw.githubusercontent.com/jasonrwilson/hpc_notes/main/N01/legal_words.txt\nThe following Linux commands show the number of lines in the file and the first 5 lines.\n$ wc -l legal_words.txt\n14818 legal_words.txt\n$ head -5 legal_words.txt\naahed\naalii\naapas\naargh\naarti\nThe file legal_words.txt contains 14,818 legal Wordle input words, with one word per line.\nThe next script checks whether a word given as a command-line argument is a legal Wordle input.\nAfter opening the file containing the legal words, the script scans the file one line at a time. The strip() method removes leading and trailing whitespace—including the newline character at the end of each line—before the word is compared with the guess.\nOnce a match is found, the break statement immediately terminates the for loop since there is no reason to examine the remaining words.\n\n\nlegal.py\n\nimport sys\n\nguess = sys.argv[1]\nf = open(\"legal_words.txt\",\"r\")\nfound = False\n\nfor line in f:\n    word = line.strip()\n    if word == guess:\n        found = True\n        break\n\nf.close()\nif found:\n    print(guess, \"is legal\")\nelse:\n    print(guess, \"is not legal\")\n\n$ python3 legal.py crane\ncrane is legal\n\n$ python3 legal.py abcde\nabcde is not legal",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "chapter1/section1_python_scripts.html#wordle-starting-words",
+    "href": "chapter1/section1_python_scripts.html#wordle-starting-words",
+    "title": "Writing Python Scripts",
+    "section": "Wordle Starting Words",
+    "text": "Wordle Starting Words\nA good Wordle starting word should contain letters that are likely to appear in the hidden word.\nWe can assign a score to each possible starting word by looping over all possible hidden words and adding one point for each character of the hidden word that matches the starting word in the same position.\nFor example, when computing the score of the potential starting word slate, the legal word stare contributes 3 points because the two words have the same letter in three positions.\nThe following script computes this score for the word given as a command-line argument. We added error handling to ensure that the given starting word satisfies the requirements of the scoring algorithm. The function sys.exit(1) terminates the script with a nonzero exit status, indicating that an error occurred.\n\n\nscore.py\n\nimport sys\n\nif len(sys.argv) != 2:\n    print(\"error: expected one starting word\")\n    sys.exit(1)\n\nstart = sys.argv[1]\n\nif len(start) != 5:\n    print(\"error: starting word must have 5 letters\")\n    sys.exit(1)\n\nfor c in start:\n    if c &lt; \"a\" or c &gt; \"z\":\n        print(\"error: starting word must contain all lowercase letters\")\n        sys.exit(1)\n\nf = open(\"legal_words.txt\",\"r\")\n\nscore = 0\n\nfor line in f:\n\n    word = line.strip()\n    for i in range(len(word)):\n        if start[i] == word[i]:\n            score += 1\n\nf.close()\nprint (\"score =\",score)\n\nLet’s first verify the error handling of our script.\n$ python3 score.py\nerror: expected one starting word\n$ python3 score.py cat\nerror: starting word must have 5 letters\n$ python3 score.py sLeep\nerror: starting word must contain all lowercase letters\nHere are our scores for the popular starting words adieu and slate.\n$ python3 score.py adieu\nscore = 4763\n$ python3 score.py slate\nscore = 6576\nAccording to our scoring method, slate is the better starting word.\nOne approach to finding the starting word with the highest score is to read all of the legal words into a list and then score each possible start word, keeping track of the best score as we go.\nHere is a script that implements this approach. We use a helper function score to calculate the score of a given start word.\n\n\nstart.py\n\ndef score(start,words):\n    score = 0\n    for word in words:\n        for i in range(len(word)):\n            if start[i] == word[i]:\n                score += 1\n    return score\n\nf = open(\"legal_words.txt\", \"r\")\n\nwords = []\n\nfor line in f:\n    words.append(line.strip())\n\nf.close()\n\nbest_start = \"\"\nbest_start_score = -1\n\nfor start in words:\n    start_score = score(start,words)\n    if start_score &gt; best_start_score:\n        best_start_score = start_score\n        best_start = start\n\nprint(\"best starting word =\", best_start)\nprint(\"score =\", best_start_score)\n\nWe use the Linux command time to measure how long the script takes to execute.\n$ time python3 start.py\nbest starting word = sanes\nscore = 12304\n\nreal   1m20.492s\nuser   1m19.584s\nsys    0m0.043s\nThe script finds sanes with a score of 12,304, but requires around 80 seconds to run (the real time is the total wall time).\nThere are 14,818 possible starting words. For each starting word, the script compares its five characters with all 14,818 legal words. Thus, the program performs \\(O(n^2)\\) work where \\(n\\) is the number of legal words.\n\nA Better Algorithm\nTo understand why start.py is not efficient, consider scoring the two possible starting words slate and stare.\nWhen scoring slate, the program scans all 14,818 legal words to determine how often s appears in position 0, how often l appears in position 1, how often a appears in position 2, and so on.\nWhen the program later scores stare, it again scans all 14,818 legal words. In particular, it recomputes how often s appears in position 0, how often a appears in position 2, and how often e appears in position 4, even though these quantities were already computed while scoring slate.\nInstead of repeatedly scanning all 14,818 legal words for each possible start word, we can make one pass through the legal words and count how often each of the 26 letters occurs in each of the five positions. Once these counts have been computed, the score of any word requires only five table lookups.\nThe function ord() returns the Unicode code point for a character. Since the lowercase English letters a through z have consecutive code points, the following helper function index maps the lowercase letters to the integer indices 0 through 25.\ndef index(c):\n    return ord(c) - ord(\"a\")\nWe can therefore store the positional counts in a 5-by-26 list of lists which we create using:\nnum = [[0]*26 for i in range(5)]\n\nfor word in words:\n    for i in range(5):\n        num[i][index(word[i])] += 1\nFor example, after running the above code, num[1][2] contains the number of times the letter c occurs in the second position, since index(\"c\") = 2.\nThe following script uses this precomputed table idea to determine the best starting word in only \\(O(n)\\) work.\n\n\nfast_start.py\n\ndef index(c):\n    return ord(c) - ord(\"a\")\n\nf = open(\"legal_words.txt\", \"r\")\n\nwords = []\n\nfor line in f:\n    words.append(line.strip())\n\nf.close()\n\nn = len(words)\n\n# find the number of times each letter\n# appears in each position\nnum = [[0]*26 for i in range(5)]\n\nfor word in words:\n    for i in range(5):\n        num[i][index(word[i])] += 1\n\nbest_start_word = \"\"\nbest_start_score = -1\n\nfor start in words:\n\n    start_score = 0\n    for i in range(5):\n        start_score += num[i][index(start[i])]\n    if start_score &gt; best_start_score:\n        best_start_score = start_score\n        best_start_word = start\n\nprint(\"best starting word =\", best_start_word)\nprint(\"score =\", best_start_score)\n\n$ time python3 fast_start.py\nbest starting word = sanes\nscore = 12304\n\nreal   0m0.085s\nuser   0m0.076s\nsys    0m0.008s\nBoth scripts produce the same result, but fast_start.py is dramatically faster. We can quantify the improvement using speedup, defined as\n\\[\n\\text{speedup} =\n\\frac{\\text{original wall time}}\n     {\\text{improved wall time}}\n\\]\nThe wall time for start.py was \\(80.492\\) seconds.\nThe wall time for fast_start.py was \\(0.085\\) seconds. Therefore, the speedup is\n\\[\n\\text{speedup}\n=\n\\frac{80.492}{0.085}\n\\approx 947\n\\]\nThus, fast_start.py is approximately 947 times faster than start.py.\nNo parallel computing or specialized hardware was required to obtain this speedup. Both programs are written in Python and produce exactly the same result. The improvement comes from changing the algorithm so that information that was repeatedly recomputed is instead computed once and reused.\nThe idea of eliminating redundant computation appears throughout high-performance computing and machine learning. For example, backpropagation, the fundamental algorithm used to train neural networks, efficiently computes gradients by reusing intermediate results rather than repeatedly recomputing the same quantities.",
+    "crumbs": [
+      "Home",
+      "1. Python",
+      "1.1 Writing Python Scripts"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Notes on High-Performance Computing",
+    "section": "",
+    "text": "Copyright: © 2026 Jason R. Wilson. All rights reserved.\nWelcome to Notes on High-Performance Computing.\nThese notes introduce high-performance computing from the perspective of data science and machine learning.\nSome previous programming experience is assumed."
+  },
+  {
+    "objectID": "index.html#python",
+    "href": "index.html#python",
+    "title": "Notes on High-Performance Computing",
+    "section": "1. Python",
+    "text": "1. Python\n\n1.1 Writing Python Scripts"
+  }
+]
