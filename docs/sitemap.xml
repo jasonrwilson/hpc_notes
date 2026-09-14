@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter2/section1_high_dim_data.html</loc>
+    <lastmod>2026-09-14T17:40:43.840Z</lastmod>
+  </url>
+  <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section4_extreme_computation.html</loc>
-    <lastmod>2026-09-09T15:56:27.486Z</lastmod>
+    <lastmod>2026-09-09T16:07:45.068Z</lastmod>
   </url>
   <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section2_intro_linux.html</loc>
@@ -10,7 +14,7 @@
   </url>
   <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/index.html</loc>
-    <lastmod>2026-09-09T14:21:32.157Z</lastmod>
+    <lastmod>2026-09-14T17:43:02.761Z</lastmod>
   </url>
   <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section1_python_scripts.html</loc>
@@ -19,5 +23,9 @@
   <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section3_intro_kcenter_visual.html</loc>
     <lastmod>2026-08-31T13:31:23.272Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section5_solving_kcenter.html</loc>
+    <lastmod>2026-09-11T02:44:53.408Z</lastmod>
   </url>
 </urlset>
