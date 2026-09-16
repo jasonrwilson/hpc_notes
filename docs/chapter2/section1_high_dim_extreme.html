@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jason R. Wilson">
 
-<title>High-Dimensional Data – Notes on High-Performance Computing</title>
+<title>High-Dimensional Extreme Pair – Notes on High-Performance Computing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -169,7 +169,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_data.html">2. Vectorized Computation</a></li><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_data.html">2.1 High Dimensional Data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_extreme.html">2. Vectorized Computation</a></li><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_extreme.html">2.1 High-Dimensional Extreme Pair</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -241,8 +241,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapter2/section1_high_dim_data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">2.1 High Dimensional Data</span></a>
+  <a href="../chapter2/section1_high_dim_extreme.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2.1 High-Dimensional Extreme Pair</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapter2/section2_kmeans_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.2 k-Means Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -267,15 +273,16 @@ window.Quarto = {
   <li><a href="#numpy-arrays" id="toc-numpy-arrays" class="nav-link" data-scroll-target="#numpy-arrays">NumPy Arrays</a></li>
   <li><a href="#vectorizing-extreme-pair" id="toc-vectorizing-extreme-pair" class="nav-link" data-scroll-target="#vectorizing-extreme-pair">Vectorizing Extreme Pair</a></li>
   <li><a href="#avoiding-a-temporary-vector" id="toc-avoiding-a-temporary-vector" class="nav-link" data-scroll-target="#avoiding-a-temporary-vector">Avoiding a Temporary Vector</a></li>
+  <li><a href="#what-about-low-dimensional-data" id="toc-what-about-low-dimensional-data" class="nav-link" data-scroll-target="#what-about-low-dimensional-data">What About Low-Dimensional Data?</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_data.html">2. Vectorized Computation</a></li><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_data.html">2.1 High Dimensional Data</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_extreme.html">2. Vectorized Computation</a></li><li class="breadcrumb-item"><a href="../chapter2/section1_high_dim_extreme.html">2.1 High-Dimensional Extreme Pair</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">High-Dimensional Data</h1>
+<h1 class="title">High-Dimensional Extreme Pair</h1>
 </div>
 
 
@@ -1092,6 +1099,46 @@ extreme_pair = 121 426</code></pre>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>np.inner(diff,diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The runtime drops from approximately <strong>2.6 seconds</strong> to approximately <strong>1.2 seconds</strong>, an additional speedup of more than a factor of two.</p>
 <p>This illustrates an important lesson when working with vectorized code: <strong>temporary arrays are not free</strong>. When replacing expensive Python loops with vector operations, we should look for ways to avoid unnecessary intermediate results.</p>
+</section>
+<section id="what-about-low-dimensional-data" class="level2">
+<h2 class="anchored" data-anchor-id="what-about-low-dimensional-data">What About Low-Dimensional Data?</h2>
+<p>Our high-dimensional extreme pair example demonstrated a dramatic advantage for NumPy. By replacing the Python loop over the <span class="math inline">\(d=784\)</span> coordinates with vector operations, we reduced the runtime from approximately 78.5 seconds to approximately 1.2 seconds.</p>
+<p>It is tempting to conclude that the NumPy implementation is always faster. However, this is not the case.</p>
+<p>Recall that our original extreme pair program was written specifically for two-dimensional data. The squared distance calculation is</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> x[i]<span class="op">-</span>x[j]</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> y[i]<span class="op">-</span>y[j]</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>dist_sq <span class="op">=</span> dx<span class="op">*</span>dx<span class="op">+</span>dy<span class="op">*</span>dy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For each pair of points, this code performs only a small number of scalar arithmetic operations. There is no Python loop over the coordinates because the program was written specifically for points in <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
+<p>We can compare this specialized two-dimensional implementation with our NumPy implementation using <code>points5k.txt</code>:</p>
+<pre class="text terminal"><code>$ python3 extreme_pair.py points5k.txt
+elapsed time = 3.877 seconds
+extreme_dist = 25.306
+extreme_pair = 737 3260
+
+$ python3 extreme_hd_v3.py points5k.txt
+elapsed time = 21.789 seconds
+extreme_dist = 25.306
+extreme_pair = 737 3260</code></pre>
+<p>Both programs find exactly the same extreme pair, but the specialized two-dimensional implementation is approximately 5.6 times faster.</p>
+<p>Why?</p>
+<p>The NumPy implementation calculates the squared distance using</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> data[i] <span class="op">-</span> data[j]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>dist_sq <span class="op">=</span> np.inner(diff,diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>NumPy performs these operations using fast compiled numerical code. However, there is still overhead associated with calling a NumPy operation.</p>
+<p>When <span class="math inline">\(d=2\)</span>, this overhead can dwarf the cost of simply performing the few required arithmetic operations directly in the Python code:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> x[i]<span class="op">-</span>x[j]</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> y[i]<span class="op">-</span>y[j]</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>dist_sq <span class="op">=</span> dx<span class="op">*</span>dx<span class="op">+</span>dy<span class="op">*</span>dy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In other words, we are paying the cost of calling NumPy repeatedly while asking each call to perform very little numerical work.</p>
+<p>When <span class="math inline">\(d=784\)</span>, the situation is completely different. Each NumPy operation performs hundreds of numerical calculations using compiled code. The overhead associated with calling the operation can now be spread across a much larger amount of useful numerical work.</p>
+<p>This illustrates an important principle that we will encounter repeatedly:</p>
+<blockquote class="blockquote">
+<p><strong>Calling a fast compiled operation is most effective when we give it enough work to do.</strong></p>
+</blockquote>
+<p>Replacing a Python loop with many calls to a fast function does not necessarily make a program fast. We should try to organize our computations so that each call performs a substantial amount of useful work.</p>
+<p>This observation also explains why there is no single implementation strategy that is fastest for every problem. A specialized implementation can be extremely effective when the dimension is small and known in advance. NumPy becomes increasingly attractive as the amount of numerical work performed by each vector operation grows.</p>
+<p>From this point forward, our focus will be on writing numerical programs that <strong>scale well to high-dimensional data</strong>. We will continue to use two-dimensional datasets when they are useful for understanding and visualizing algorithms, but we will generally design our numerical implementations from the beginning to work with points in <span class="math inline">\(\mathbb{R}^d\)</span>.</p>
+<p>In the next section, we will put this approach into practice by developing a <span class="math inline">\(k\)</span>-means clustering algorithm using NumPy arrays from the beginning.</p>
 
 
 </section>

@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/chapter2/section1_high_dim_data.html</loc>
-    <lastmod>2026-09-14T17:40:43.840Z</lastmod>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter2/section2_kmeans_clustering.html</loc>
+    <lastmod>2026-09-16T15:56:05.508Z</lastmod>
   </url>
   <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section4_extreme_computation.html</loc>
-    <lastmod>2026-09-09T16:07:45.068Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section2_intro_linux.html</loc>
-    <lastmod>2026-08-26T15:23:39.341Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/index.html</loc>
-    <lastmod>2026-09-14T17:43:02.761Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section1_python_scripts.html</loc>
-    <lastmod>2026-08-31T00:12:18.651Z</lastmod>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section5_solving_kcenter.html</loc>
+    <lastmod>2026-09-11T02:44:53.408Z</lastmod>
   </url>
   <url>
     <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section3_intro_kcenter_visual.html</loc>
     <lastmod>2026-08-31T13:31:23.272Z</lastmod>
   </url>
   <url>
-    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section5_solving_kcenter.html</loc>
-    <lastmod>2026-09-11T02:44:53.408Z</lastmod>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section1_python_scripts.html</loc>
+    <lastmod>2026-08-31T00:12:18.651Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/index.html</loc>
+    <lastmod>2026-09-16T13:50:20.156Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section2_intro_linux.html</loc>
+    <lastmod>2026-08-26T15:23:39.341Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter1/section4_extreme_computation.html</loc>
+    <lastmod>2026-09-09T16:07:45.068Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonrwilson.github.io/hpc_notes/chapter2/section1_high_dim_extreme.html</loc>
+    <lastmod>2026-09-16T16:21:03.935Z</lastmod>
   </url>
 </urlset>
